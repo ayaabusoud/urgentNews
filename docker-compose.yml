@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql:latest
+    container_name: urgent_news_db_container
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: urgentNews
+    volumes:
+      - ./Database/news.sql:/docker-entrypoint-initdb.d/news.sql
+    ports:
+      - "3306:3306"
+    networks:
+      - urgent_news_network
+
+  backend:
+    build:
+      context: ./Backend
+    container_name: urgent_news_backend_container
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: rootpassword
+      DB_NAME: urgentNews
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    networks:
+      - urgent_news_network
+
+  frontend:
+    build:
+      context: ./Frontend
+    container_name: urgent_news_frontend_container
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - urgent_news_network
+
+networks:
+  urgent_news_network:
+    driver: bridge
