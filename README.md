@@ -4,6 +4,25 @@ The application, named urgentNews, is a web-based one-page platform that display
 2. Another image contains the backend service, which includes an API named "getUrgentNews". This API retrieves the news articles from the database and returns them.
 3. Lastly, there is an image for the front-end service, which sets up an Apache server that hosts the front-end webpage
 
+**Table of Contents**
+- [urgentNews](#urgentnews)
+  - [Docker Setup](#docker-setup)
+    - [Backend Dockerfile](#backend-dockerfile)
+      - [Explanation:](#explanation)
+      - [To build Backend image run the following command:](#to-build-backend-image-run-the-following-command)
+  - [MySQL Database Dockerfile](#mysql-database-dockerfile)
+      - [Explanation:](#explanation-1)
+      - [To build Database image run the following command:](#to-build-database-image-run-the-following-command)
+  - [Frontend Dockerfile](#frontend-dockerfile)
+      - [Explanation:](#explanation-2)
+      - [To build Database image run the following command:](#to-build-database-image-run-the-following-command-1)
+  - [Docker Compose Dockerfile](#docker-compose-dockerfile)
+  - [Pushing Images to Docker Hub](#pushing-images-to-docker-hub)
+    - [Images Links](#images-links)
+  - [Run the Images](#run-the-images)
+  - [Run Complete Application Using Docker Compose](#run-complete-application-using-docker-compose)
+
+
 ## Docker Setup
 
 ### Backend Dockerfile
@@ -24,7 +43,7 @@ ENV FLASK_APP=app.py
 CMD ["flask", "run", "--host=0.0.0.0"]
 ```
 
-Explanation:
+#### Explanation:
 - FROM python:3.9-slim: Uses a slim version of Python 3.9 as the base image to keep the image lightweight.
 - WORKDIR /app: Sets the working directory to /app inside the container.
 - COPY . /app: Copies all the files from the current directory on the host machine to the /app directory in the container.
@@ -55,7 +74,7 @@ COPY news.sql /docker-entrypoint-initdb.d/
 EXPOSE 3306
 ```
 
-Explanation:
+#### Explanation:
 - FROM mysql: Uses the latest version of the official MySQL image as the base image.
 - ENV MYSQL_ROOT_PASSWORD=rootpassword: Sets the root password for the MySQL server.
 - ENV MYSQL_DATABASE=urgentNews: Creates a database named urgentNews.
@@ -79,7 +98,7 @@ COPY . /var/www/html
 EXPOSE 80
 ```
 
-Explanation:
+#### Explanation:
 - FROM php:7.4-apache: Uses the official PHP 7.4 image with Apache as the base image.
 - COPY . /var/www/html: Copies all the files from the current directory on the host machine to the /var/www/html directory in the container, which is the default directory served by Apache.
 - EXPOSE 80: Exposes port 80, which is the default port for HTTP.
@@ -206,6 +225,13 @@ docker push ayaabusoud/urgent_news_frontend:latest
 docker push ayaabusoud/urgent_news_db:latest
 ```
 
+### Images Links
+[ayaabusoud/urgent_news_db](https://hub.docker.com/repository/docker/ayaabusoud/urgent_news_db/general)
+
+[ayaabusoud/urgent_news_frontend](https://hub.docker.com/repository/docker/ayaabusoud/urgent_news_frontend/general)
+
+[ayaabusoud/urgent_news_backend](https://hub.docker.com/repository/docker/ayaabusoud/urgent_news_backend/general)
+
 
 ## Run the Images 
 
@@ -233,3 +259,6 @@ Go to following url in your browser to see the result
 ```
 http://localhost
 ```
+
+you should see the same this results
+![Result](./result.png)
