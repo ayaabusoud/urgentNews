@@ -4,7 +4,7 @@ import mysql.connector
 import os
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+CORS(app)
 
 def get_db_connection():
     connection = mysql.connector.connect(
@@ -15,7 +15,7 @@ def get_db_connection():
     )
     return connection
 
-@app.route('/news', methods=['GET'])
+@app.route('/getUrgentNews', methods=['GET'])
 def get_news():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)

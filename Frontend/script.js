@@ -1,5 +1,5 @@
 const ip = window.location.hostname;
-const url = "http://" + ip + ":5000/news";
+const url = "http://" + ip + ":5000/getUrgentNews";
 
 document.addEventListener('DOMContentLoaded', function() {
   fetch(url)
